@@ -124,6 +124,9 @@ def visualize_attention_scores(
 
     title = _name_to_title(name)
     file_path = Path(name).with_suffix(".png") if path is None else path.with_suffix(".png")
+    if not file_path.parent.exists():
+        file_path.parent.mkdir(parents=True, exist_ok=True)
+
     ax.set_title(f"{title}\n{suffix_title}", fontsize=20)
 
     ax.set_xlabel("Key Tokens", fontsize=18)
@@ -151,4 +154,52 @@ def visualize_attention_scores(
     plt.savefig(file_path, dpi=300, bbox_inches="tight")
     plt.close(fig)  # Close the figure to free up memory
 
-    print(f"Visualization saved as {file_path}")
+    print(f"Mask visualization saved as {file_path}")
+
+def plot_bar_graph(
+    flex_attention_timings: list,
+    xformers_sdpa_with_mask_timings: list,
+    fa_timings: list,
+    name: str = "attention_timings",
+    path: Optional[Path] = None,
+):
+    """
+    Plot a bar graph comparing fwd and bwd timings for different kernels
+    """
+    fwd_times = [flex_attention_timings[0], xformers_sdpa_with_mask_timings[0], fa_timings[0]]
+    bwd_times = [flex_attention_timings[1], xformers_sdpa_with_mask_timings[1], fa_timings[1]]
+    labels = [flex_attention_timings[2], xformers_sdpa_with_mask_timings[2], fa_timings[2]]
+    
+    # Set up the bar positions
+    x = np.arange(len(labels))  # Kernel indices
+    width = 0.35  # Width of the bars
+    
+    # Create subplots for forward and backward pass
+    fig, ax = plt.subplots()
+    
+    # Plot bars for forward and backward times
+    ax.bar(x - width/2, fwd_times, width, label='Forward Pass', color='b')
+    ax.bar(x + width/2, bwd_times, width, label='Backward Pass', color='g')
+
+    # add dashed horizontal line for FlexAttention forward and backward time
+    ax.axhline(fwd_times[0], linestyle='--', color='r', linewidth=0.7)
+    ax.axhline(bwd_times[0], linestyle='--', color='r', linewidth=0.7)
+    
+    # Adding labels and title
+    ax.set_xlabel('Kernels')
+    ax.set_ylabel('Execution Time (ms)')
+    ax.set_title('Forward and Backward Pass Times for Different Kernels')
+    ax.set_xticks(x)
+    ax.set_xticklabels(labels)
+    ax.legend()
+    
+    # Display the plot
+    file_path = Path(name).with_suffix(".png") if path is None else path.with_suffix(".png")
+    if not file_path.parent.exists():
+        file_path.parent.mkdir(parents=True, exist_ok=True)
+        
+    plt.tight_layout()
+    plt.savefig(file_path, dpi=300, bbox_inches="tight")
+    plt.close(fig)  # Close the figure to free up memory
+
+    print(f"Benchmark visualization saved as {file_path}")
