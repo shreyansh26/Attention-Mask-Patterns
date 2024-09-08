@@ -1,3 +1,7 @@
+'''
+From - https://github.com/pytorch-labs/attention-gym/blob/75867424a1d4391bff49527029d3612a09dd67e2/attn_gym/utils.py
+'''
+
 import torch
 from typing import Optional
 import matplotlib.pyplot as plt
