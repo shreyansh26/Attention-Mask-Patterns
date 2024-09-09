@@ -72,6 +72,6 @@ mask_mod = and_masks(partial(bidirectional_sliding_window, dilation_factor=DILAT
 name = "bidirectional_dilated_sliding_window"
 visualize_attention_scores(q, k, mask_mod=mask_mod, name=name, path=Path(f"plots/{name}/mask.png"))
 plot_bar_graph([flex_attention_fwd_time, flex_attention_bwd_time, "FlexAttention"], 
-                [xformers_sdpa_with_mask_fwd_time, xformers_sdpa_with_mask_bwd_time, "xFormers/SDPA"], 
+                [xformers_sdpa_with_mask_fwd_time, xformers_sdpa_with_mask_bwd_time, "xFormers/SDPA + mask"], 
                 [fa_fwd_time, fa_bwd_time, "FA (Full)"], 
                 name="timing", path=Path(f"plots/{name}/timing.png"))
