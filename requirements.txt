@@ -1,2 +1,4 @@
 matplotlib==3.9.2
+numpy==2.1.1
+pytorch_triton==3.0.0+757b6a61e7
 torch==2.5.0.dev20240907+cu121
