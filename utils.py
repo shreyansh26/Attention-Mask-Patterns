@@ -156,10 +156,11 @@ def visualize_attention_scores(
 
     print(f"Mask visualization saved as {file_path}")
 
-def plot_bar_graph(
+def plot_timing_graph(
     flex_attention_timings: list,
     xformers_sdpa_with_mask_timings: list,
     fa_timings: list,
+    seq_length: int,
     name: str = "attention_timings",
     path: Optional[Path] = None,
 ):
@@ -187,7 +188,7 @@ def plot_bar_graph(
     # Adding labels and title
     ax.set_xlabel('Kernels')
     ax.set_ylabel('Execution Time (ms)')
-    ax.set_title(f"{title}", fontsize=15)
+    ax.set_title(f"{title}; S={seq_length}", fontsize=10)
     ax.set_xticks(x)
     ax.set_xticklabels(labels)
     ax.legend()

@@ -8,13 +8,13 @@ from torch.nn.attention.flex_attention import flex_attention, create_block_mask,
 import matplotlib.pyplot as plt
 from functools import partial
 from pathlib import Path
-from utils import visualize_attention_scores, plot_bar_graph
+from utils import visualize_attention_scores, plot_timing_graph
 
 torch.set_default_device('cuda')
 
 B = 8
 H = 16
-S = 2048
+S = 4096
 D = 64
 SLIDING_WINDOW = 256
 DILATION_FACTOR = 2
@@ -58,7 +58,14 @@ with sdpa_kernel(SDPBackend.FLASH_ATTENTION):
     print("FA (full) fwd:", fa_fwd_time)
     print("FA (full) bwd:", fa_bwd_time)
 
-# Plot
+# Plot timing
+name = "bidirectional_dilated_sliding_window"
+plot_timing_graph([flex_attention_fwd_time, flex_attention_bwd_time, "FlexAttention"], 
+                [xformers_sdpa_with_mask_fwd_time, xformers_sdpa_with_mask_bwd_time, "xFormers/SDPA + mask"], 
+                [fa_fwd_time, fa_bwd_time, "FA (Full)"], seq_length=S,
+                name=name, path=Path(f"plots/{name}/timing.png"))
+
+# Plot mask
 B = 1
 H = 1
 S = 32
@@ -69,9 +76,4 @@ DILATION_FACTOR = 2
 q, k = [torch.randn(B, H, S, D, dtype=torch.float16) for _ in range(2)]
 mask_mod = and_masks(partial(bidirectional_sliding_window, dilation_factor=DILATION_FACTOR, sliding_window=SLIDING_WINDOW), partial(dilated_mask, dilation_factor=DILATION_FACTOR))
 
-name = "bidirectional_dilated_sliding_window"
 visualize_attention_scores(q, k, mask_mod=mask_mod, name=name, path=Path(f"plots/{name}/mask.png"))
-plot_bar_graph([flex_attention_fwd_time, flex_attention_bwd_time, "FlexAttention"], 
-                [xformers_sdpa_with_mask_fwd_time, xformers_sdpa_with_mask_bwd_time, "xFormers/SDPA + mask"], 
-                [fa_fwd_time, fa_bwd_time, "FA (Full)"], 
-                name=name, path=Path(f"plots/{name}/timing.png"))
