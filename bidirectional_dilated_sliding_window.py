@@ -30,7 +30,7 @@ def dilated_mask(b, h, q_idx, kv_idx, dilation_factor):
 q, k, v = [torch.randn(B, H, S, D, requires_grad=True, dtype=torch.float16) for _ in range(3)]
 
 mask_mod = and_masks(partial(bidirectional_sliding_window, dilation_factor=DILATION_FACTOR, sliding_window=SLIDING_WINDOW), partial(dilated_mask, dilation_factor=DILATION_FACTOR))
-block_mask = create_block_mask(mask_mod, B=B, H=None, Q_LEN=S, KV_LEN=S)
+block_mask = create_block_mask(mask_mod, B=B, H=None, Q_LEN=S, KV_LEN=S, _compile=True)
 mask = create_mask(mask_mod, B=1, H=1, Q_LEN=S, KV_LEN=S)
 
 print("Bidirectional dilated sliding window mask:", block_mask[0])

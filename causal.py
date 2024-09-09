@@ -23,7 +23,7 @@ def causal(b, h, q_idx, kv_idx):
 q, k, v = [torch.randn(B, H, S, D, requires_grad=True, dtype=torch.float16) for _ in range(3)]
 
 mask_mod = causal
-block_mask = create_block_mask(mask_mod, B=B, H=None, Q_LEN=S, KV_LEN=S)
+block_mask = create_block_mask(mask_mod, B=B, H=None, Q_LEN=S, KV_LEN=S, _compile=True)
 mask = create_mask(mask_mod, B=1, H=1, Q_LEN=S, KV_LEN=S)
 
 print("Causal Mask:", block_mask[0])
