@@ -178,20 +178,28 @@ def plot_bar_graph(
     fig, ax = plt.subplots()
     
     # Plot bars for forward and backward times
-    ax.bar(x - width/2, fwd_times, width, label='Forward Pass', color='b')
-    ax.bar(x + width/2, bwd_times, width, label='Backward Pass', color='g')
-
-    # add dashed horizontal line for FlexAttention forward and backward time
+    bars_fwd = ax.bar(x - width/2, fwd_times, width, label='Forward Pass', color='b')
+    bars_bwd = ax.bar(x + width/2, bwd_times, width, label='Backward Pass', color='g')
+    
+    title = _name_to_title(name)
     ax.axhline(fwd_times[0], linestyle='--', color='r', linewidth=0.7)
     ax.axhline(bwd_times[0], linestyle='--', color='r', linewidth=0.7)
-    
     # Adding labels and title
     ax.set_xlabel('Kernels')
     ax.set_ylabel('Execution Time (ms)')
-    ax.set_title('Forward and Backward Pass Times for Different Kernels')
+    ax.set_title(f"{title}", fontsize=15)
     ax.set_xticks(x)
     ax.set_xticklabels(labels)
     ax.legend()
+    
+    # Adding the execution time values on top of each bar
+    for bar in bars_fwd:
+        height = bar.get_height()
+        ax.text(bar.get_x() + bar.get_width() / 2, height, f'{height:.2f}', ha='center', va='bottom')
+    
+    for bar in bars_bwd:
+        height = bar.get_height()
+        ax.text(bar.get_x() + bar.get_width() / 2, height, f'{height:.2f}', ha='center', va='bottom')
     
     # Display the plot
     file_path = Path(name).with_suffix(".png") if path is None else path.with_suffix(".png")
