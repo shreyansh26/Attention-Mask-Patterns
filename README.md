@@ -2,7 +2,7 @@
 
 Using FlexAttention to compute attention with different masking patterns. 
 
-The speedup over F.sdpa/xFormers and FA2 tends to increase with increasing sequence length. Timing plots are shown for `seq_length=4096`.
+The speedup over F.sdpa/xFormers and FA2 tends to increase with increasing sequence length. Timing plots are shown for different sequence lengths. It is mentioned in the title of the plot.
 
 ### Causal mask
 Mask             |  Execution Time
