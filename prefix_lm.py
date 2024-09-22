@@ -20,7 +20,7 @@ PREFIX_LENGTH = 2048
 
 def prefix_lm_causal_mask(b, h, q_idx, kv_idx, prefix_length):
     causal_mask = (q_idx >= kv_idx)
-    prefix_mask = (kv_idx <= prefix_length)
+    prefix_mask = (kv_idx < prefix_length)
     return causal_mask | prefix_mask
 
 q, k, v = [torch.randn(B, H, S, D, requires_grad=True, dtype=torch.float16) for _ in range(3)]
