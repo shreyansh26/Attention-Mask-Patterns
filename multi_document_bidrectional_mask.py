@@ -73,7 +73,7 @@ DOCUMENT_IDXS = torch.zeros(S, dtype=torch.int, device='cuda')
 DOCUMENT_IDXS[:4] = 0
 DOCUMENT_IDXS[4:8] = 1
 for i in range(8, S, 4):
-    DOCUMENT_IDXS[i : i + 4] = i // 4 + 1
+    DOCUMENT_IDXS[i : i + 4] = i // 4
 
 q, k = [torch.randn(B, H, S, D, dtype=torch.float16) for _ in range(2)]
 mask_mod = multi_document_bidrectional_mask
