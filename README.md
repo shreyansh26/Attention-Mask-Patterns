@@ -29,6 +29,16 @@ Mask             |  Execution Time
 :-------------------------:|:-------------------------:
 ![](plots/bidirectional_local_sliding_window_global_attention/mask.png)  |  ![](plots/bidirectional_local_sliding_window_global_attention/timing.png)
 
+### PrefixLM mask
+Mask             |  Execution Time
+:-------------------------:|:-------------------------:
+![](plots/prefix_lm/mask.png)  |  ![](plots/prefix_lm/timing.png)
+
+### Multi-document causal mask
+Mask             |  Execution Time
+:-------------------------:|:-------------------------:
+![](plots/multi_document_causal_mask/mask.png)  |  ![](plots/multi_document_causal_mask/timing.png)
+
 
 ## Requirements
 * Pytorch Nightly (for FlexAttention, to be released with Pytorch 2.5)
