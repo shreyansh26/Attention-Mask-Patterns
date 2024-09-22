@@ -34,10 +34,21 @@ Mask             |  Execution Time
 :-------------------------:|:-------------------------:
 ![](plots/prefix_lm/mask.png)  |  ![](plots/prefix_lm/timing.png)
 
+### Multi-document bidirectional mask
+Mask             |  Execution Time
+:-------------------------:|:-------------------------:
+![](plots/multi_document_bidirectional_mask/mask.png)  |  ![](plots/multi_document_bidirectional_mask/timing.png)
+
 ### Multi-document causal mask
 Mask             |  Execution Time
 :-------------------------:|:-------------------------:
 ![](plots/multi_document_causal_mask/mask.png)  |  ![](plots/multi_document_causal_mask/timing.png)
+
+### Stand-alone Self-Attention mask
+(Reference - [attention-gym repo](https://github.com/pytorch-labs/attention-gym/blob/75867424a1d4391bff49527029d3612a09dd67e2/examples/flex_attn.ipynb))
+Mask             |  Execution Time
+:-------------------------:|:-------------------------:
+![](plots/standalone_self_attention/mask.png)  |  ![](plots/standalone_self_attention/timing.png)
 
 
 ## Requirements
